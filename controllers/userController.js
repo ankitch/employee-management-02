@@ -1,30 +1,15 @@
-const getUsers = (req, res, next) => {
-  //db => users
-  const users = [
-    {
-      name: "ankit",
-      company: "innovate",
-    },
-    {
-      name: "bishal",
-      company: "islington",
-    },
-  ];
+const UserModel = require("../ models/user");
+
+const getUsers = async (req, res, next) => {
+  const users = await UserModel.find();
   res.status(200).json(users);
 };
 
-const postUsers = (req, res, next) => {
-  const users = [
-    {
-      name: "ankit",
-      company: "innovate",
-    },
-    {
-      name: "bishal",
-      company: "islington",
-    },
-  ];
-  res.status(201).json([...users, req.body]);
+const postUsers = async (req, res, next) => {
+  const user = new UserModel({ ...req.body });
+  const userData = await user.save();
+
+  res.status(201).json(userData);
 };
 
 const deleteUser = (req, res, next) => {

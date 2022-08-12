@@ -3,11 +3,22 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-
+const mongoose = require("mongoose");
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 
 const app = express();
+
+const connectionString = process.env.CONNECTION_STRING;
+const connectToDatabase = async () => {
+  try {
+    const connection = await mongoose.connect(connectionString);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+connectToDatabase();
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
